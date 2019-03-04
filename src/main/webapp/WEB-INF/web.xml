@@ -4,17 +4,11 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 	<display-name>SSM Web Application</display-name>
-	<!-- Spring和mybatis的配置文件 -->  
+	<!-- 所有配置文件 -->
     <context-param>  
         <param-name>contextConfigLocation</param-name>  
         <param-value>classpath:spring-mybatis.xml,classpath:security-config.xml,classpath:spring-mvc.xml</param-value>  
     </context-param>
-    <!-- 加载security -->
-<!--      <context-param>  
-        <param-name>contextConfigLocation</param-name>  
-        <param-value>classpath:security-config.xml</param-value>  
-    </context-param> -->
-    <!-- 加载日志 -->
     <context-param>
     	<param-name>log</param-name>
     	<param-value>classpath:log4j.properties</param-value>
@@ -65,6 +59,7 @@
     	<servlet-name>SpringMVC</servlet-name>
     	<url-pattern>/</url-pattern>
     </servlet-mapping>
+	<!--这是首页 目录是什么？？？？ -->
     <welcome-file-list>
     	<welcome-file>/index</welcome-file>
     </welcome-file-list>

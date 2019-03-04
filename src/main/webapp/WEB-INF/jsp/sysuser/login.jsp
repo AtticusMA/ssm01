@@ -11,7 +11,7 @@
 <script src="${ctxStatic}/jquery/jquery-3.3.1.js"></script>
 <script src="${ctxStatic}/bootstrap/bootstrap.js" type="text/javascript"></script>
 <link href="${ctxStatic}/bootstrap/bootstrap.css" type="text/css" rel="stylesheet">
-<title>Insert title here</title>
+<title>jsp页面不能更新</title>
 </head>
 <body>
 	<form action="${ctx}/user/login" modelAttribute="user" method="post" class="form-horizontal">
@@ -22,7 +22,7 @@
   </div>
   <div class="form-group">
     <label for="password">Password</label>
-    <input type="password" name="password"  class="form-control" id="exampleInputPassword1" placeholder="Password">
+    <input type="password" id="password"  class="form-control" id="exampleInputPassword1" placeholder="Password">
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
