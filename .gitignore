@@ -3,3 +3,6 @@
 .classpath
 .project
 logs
+.gitignore
+.idea
+.idea/*
