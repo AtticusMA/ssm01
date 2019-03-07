@@ -9,17 +9,29 @@
 											http://www.springframework.org/schema/context/spring-context-3.1.xsd
 											http://www.springframework.org/schema/mvc
 											http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+	<!--确定spring 扫描位置-->
 	<context:component-scan base-package="com.qiusheng.www"></context:component-scan>
 
+	<!--放置配置，但是没有实现 -->
 	<context:property-placeholder location="classpath:ssm01.properties" ignore-unresolvable="true"/>
-	
+
+	<!--<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+		<!--<property name="location" value="classpath:ssm01.properties"></property>-->
+	<!--</bean>-->
+
+
+	<!--使用注解驱动 -->
 	<mvc:annotation-driven></mvc:annotation-driven>
-	
+
+	<!--定义的静态资源位置，怎么就报错了呢 -->
 	<!--<mvc:resources mapping="/static/**" location="/WEB-INF/static/" cache-period="31536000"/>-->
-	
+
+	<!--实现视图展示当开始执行，没有映射到控制器使用视图 -->
 	<mvc:view-controller path="/"  view-name="index"></mvc:view-controller>
-	
+
+	<!--注解驱动 -->
 	<mvc:annotation-driven>
+		<!--http信息转换器 将http信息转换成servlet可以解析的内容-->
 		<mvc:message-converters>
 			<bean
 				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -36,7 +48,8 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
-	
+
+	<!--定义多种解析的属性 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="defaultEncoding" value="utf-8"></property>
 		<property name="maxUploadSize" value="10485760000"></property>
@@ -44,7 +57,8 @@
 		<property name="resolveLazily" value="true"></property>
 	</bean>
 	
-	
+
+	<!--内容协商，将类型转换成何种格式返回 -->
 	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
 		<property name="mediaTypes">
 			<value>

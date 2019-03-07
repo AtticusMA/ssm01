@@ -5,6 +5,6 @@ import com.qiusheng.www.common.Result;
 import com.qiusheng.www.entity.User;
   
 public interface IUserService {  
-    public User getUserById(int userId);  
-    public Result insertUser(User user);
+    User getUserById(int userId);
+    Result insertUser(User user);
 }  

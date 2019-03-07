@@ -1,5 +1,9 @@
 package com.qiusheng.www.entity;
 
+
+import javax.persistence.Table;
+
+@Table(name="user_t")
 public class User {
     private Integer id;
 

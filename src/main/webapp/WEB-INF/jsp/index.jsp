@@ -7,6 +7,6 @@
 <h2>Hello 222SSM</h2>
 <h3>${user.password}</h3>
 <a href="${ctx}/user/getRegister" >注册</a>
-<a href="${ctx}/user/login" title="${ctx}/user/login">登陆什么情况</a>
+<a href="${ctx}/user/login" title="${ctx}/user/login">登陆情况</a>
 </body>
 </html>

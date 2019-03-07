@@ -2,6 +2,8 @@ package com.qiusheng.www.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import com.qiusheng.www.common.BaseController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;  
 import org.springframework.ui.Model;
@@ -12,10 +14,13 @@ import com.qiusheng.www.service.IUserService;
   
   
 @Controller  
-@RequestMapping(value="ssm01/user")
-public class UserController {
+@RequestMapping(value="/user")
+public class UserController extends BaseController {
+
 	 @Autowired
-	 private IUserService userService;     
+	 private IUserService userService;
+
+	 private final static Logger loger = LoggerFactory.getLogger(UserController.class);
 
     @RequestMapping(value="/test",method=RequestMethod.GET)  
     public String test(HttpServletRequest request,Model model){  
@@ -47,6 +52,8 @@ public class UserController {
     
     @RequestMapping(value="/register",method=RequestMethod.POST)
     public String register(User user){
+        user.setAge(1);
+        user.setId(1);
     	userService.insertUser(user);
     	return "index";  
     }
