@@ -24,7 +24,7 @@
 	<mvc:annotation-driven></mvc:annotation-driven>
 
 	<!--定义的静态资源位置，怎么就报错了呢 -->
-	<!--<mvc:resources mapping="/static/**" location="/WEB-INF/static/" cache-period="31536000"/>-->
+	<mvc:resources mapping="/static/**" location="/static/" cache-period="31536000"/>
 
 	<!--实现视图展示当开始执行，没有映射到控制器使用视图 -->
 	<mvc:view-controller path="/"  view-name="index"></mvc:view-controller>
