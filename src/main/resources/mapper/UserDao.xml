@@ -13,21 +13,19 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from user_t
+    from sys_users
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from user_t
+    delete from sys_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.qiusheng.www.entity.User" >
-    insert into user_t (id, user_name, password, 
-      age)
-    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{age,jdbcType=INTEGER})
+    insert into sys_users (username, password)
+    values (#{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.qiusheng.www.entity.User" >
-    insert into user_t
+    insert into sys_users
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -58,7 +56,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.qiusheng.www.entity.User" >
-    update user_t
+    update sys_users
     <set >
       <if test="userName != null" >
         user_name = #{userName,jdbcType=VARCHAR},
@@ -73,7 +71,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.qiusheng.www.entity.User" >
-    update user_t
+    update sys_users
     set user_name = #{userName,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER}

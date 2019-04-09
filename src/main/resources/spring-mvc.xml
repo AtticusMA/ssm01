@@ -27,7 +27,7 @@
 	<mvc:resources mapping="/static/**" location="/static/" cache-period="31536000"/>
 
 	<!--实现视图展示当开始执行，没有映射到控制器使用视图 -->
-	<mvc:view-controller path="/"  view-name="index"></mvc:view-controller>
+	<mvc:view-controller path="/"  view-name="index.jsp"></mvc:view-controller>
 
 	<!--注解驱动 -->
 	<mvc:annotation-driven>

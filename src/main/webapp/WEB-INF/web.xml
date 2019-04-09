@@ -7,7 +7,8 @@
 	<!-- 所有配置文件 -->
     <context-param>  
         <param-name>contextConfigLocation</param-name>  
-        <param-value>classpath:spring-context.xml,classpath:spring-security.xml,classpath:spring-mvc.xml</param-value>
+        <!--<param-value>classpath:spring-context.xml,classpath:spring-security.xml,classpath:spring-mvc.xml</param-value>-->
+		<param-value>classpath*:spring-*.xml</param-value>
     </context-param>
     <context-param>
     	<param-name>log</param-name>

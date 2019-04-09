@@ -1,11 +1,27 @@
 package com.qiusheng.www.entity;
 
 
+import javax.persistence.Column;
 import javax.persistence.Table;
+
+/**
+* @Description:    java类作用描述
+* @Author:         qiusheng
+* @Company:
+* @department:
+* @CreateDate:     2019/3/9 17:26
+* @UpdateUser:     qiusheng
+* @UpdateDate:     2019/3/9 17:26
+* @UpdateRemark:   修改内容
+* @Version:        1.0
+ *
+*/
+
 
 @Table(name="user_t")
 public class User {
-    private Integer id;
+
+    private Long id;
 
     private String userName;
 
@@ -13,11 +29,11 @@ public class User {
 
     private Integer age;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -44,12 +60,16 @@ public class User {
     public void setAge(Integer age) {
         this.age = age;
     }
+    public User(){}
+
+    public User(Long id,String userName){
+        this.id=id;
+        this.userName = userName;
+    }
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", userName=" + userName + ", password="
 				+ password + ", age=" + age + "]";
 	}
-    
-    
 }

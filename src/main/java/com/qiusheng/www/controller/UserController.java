@@ -2,6 +2,7 @@ package com.qiusheng.www.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import com.qiusheng.www.common.BaseController;
+import com.qiusheng.www.common.IdUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.qiusheng.www.entity.User;
 import com.qiusheng.www.service.IUserService;
-  
-  
+
+import java.util.UUID;
+
+
 @Controller  
 @RequestMapping(value="/user")
 public class UserController extends BaseController {
@@ -30,7 +33,7 @@ public class UserController extends BaseController {
         if (userId==1) {
         	 user = new User();  
         	 user.setAge(11);
-        	 user.setId(1);
+        	 user.setId(IdUtil.generateId());
         	 user.setPassword("123");
         	 user.setUserName("javen");
 		}
@@ -53,9 +56,11 @@ public class UserController extends BaseController {
     @RequestMapping(value="/register",method=RequestMethod.POST)
     public String register(User user){
         user.setAge(1);
-        user.setId(1);
+        user.setId(IdUtil.generateId());
     	userService.insertUser(user);
     	return "index";  
     }
+
+
     
 }   

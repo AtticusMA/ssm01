@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
 			    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 			    http://www.springframework.org/schema/context
 			    http://www.springframework.org/schema/context/spring-context-3.1.xsd
 			    http://www.springframework.org/schema/mvc
 			    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
 			    http://www.springframework.org/schema/tx
-			    http://www.springframework.org/schema/tx/spring-tx.xsd">
+			    http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 	<!-- 自动扫描 -->
 	<context:component-scan base-package="com.qiusheng.www" />
 	<!-- 引入配置文件 -->
@@ -19,29 +19,28 @@
 		<property name="location" value="classpath:jdbc.properties"></property>
 	</bean>
 	
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" >
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<!--<property name="driverClassName" value="${driver}"/>-->
-		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+		<property name="driverClassName" value="${driver}"/>
 		<property name="url" value="${url}" />
 		<property name="username"  value="${username}"/>
 		<property name="password" value="${password}" />
-		<!-- 初始化连接大小 -->  
-        <property name="initialSize" value="${initialSize}"></property>
-        <!-- 连接池最大数量 -->  
-        <property name="maxActive" value="${maxActive}"></property>  
-        <!-- 连接池最大空闲 -->  
-        <!--<property name="maxIdle" value="${maxIdle}"></property>  -->
-        <!-- 连接池最小空闲 -->  
-        <property name="minIdle" value="${minIdle}"></property>  
-        <!-- 获取连接最大等待时间 -->  
-        <property name="maxWait" value="${maxWait}"></property>
+		<property name="initialSize" value="${initialSize}" />
+		<property name="minIdle" value="${minIdle}"/>
+		<property name="maxActive" value="${maxActive}" />
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="${maxWait}"/>
+
+
+		<property name="validationQuery" value="${validationQuery}" />
+		<property name="testWhileIdle" value="true"/>
+		<property name="testOnBorrow" value="false"/>
+		<property name="testOnReturn" value="false"/>
 		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}"/>
 		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-		<property name="minEvictableIdleTimeMillis" value="300000" />
-		<property name="testWhileIdle" value="true" />
-		<property name="testOnBorrow" value="false" />
-		<property name="testOnReturn" value="false" />
+		<property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}"/>
+		<property name="filters" value="stat"/>
 	</bean>
 	
 	<!-- 声明使用mybatis的SqlSeesionFactory -->
@@ -67,7 +66,27 @@
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
-	
+
+
+	<!--配置事务通知 给方法添加事务-->
+	<!--<tx:advice id="txAdvice" transaction-manager="transactionManager">-->
+		<!--<tx:attributes>-->
+			<!--<tx:method name="add*" propagation="SUPPORTS" />-->
+			<!--<tx:method name="delete*" propagation="MANDATORY" />-->
+			<!--<tx:method name="update*" propagation="NESTED" />-->
+			<!--<tx:method name="save*" propagation="SUPPORTS" />-->
+			<!--&lt;!&ndash; <tx:method name="*" propagation="true" />&ndash;&gt;-->
+		<!--</tx:attributes>-->
+
+	<!--</tx:advice>-->
+
+	<!--配置切面 -->
+	<!--<aop:config>-->
+		<!--<aop:pointcut id="allManagerMethod" expression="execution(* com.qiusheng.www.service.*.*(..))"/>-->
+		<!--<aop:advisor advice-ref="txAdvice"-->
+					 <!--pointcut-ref="allManagerMethod" />-->
+	<!--</aop:config>-->
+
 	<!-- 配置基于注解的声明式事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
 

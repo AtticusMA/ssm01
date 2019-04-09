@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 import com.qiusheng.www.entity.User;
 
 @Repository
-public interface UserDao {
+public interface
+UserDao {
     int deleteByPrimaryKey(Integer id);
 
     int insert(User record);
