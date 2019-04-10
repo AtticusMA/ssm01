@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
- 
 <!--
 当scan属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
 scanPeriod:

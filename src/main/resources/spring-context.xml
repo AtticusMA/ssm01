@@ -19,7 +19,7 @@
 		<property name="location" value="classpath:jdbc.properties"></property>
 	</bean>
 	
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<!--<property name="driverClassName" value="${driver}"/>-->
 		<property name="driverClassName" value="${driver}"/>
 		<property name="url" value="${url}" />
@@ -40,7 +40,6 @@
 		<property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}"/>
 		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
 		<property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}"/>
-		<property name="filters" value="stat"/>
 	</bean>
 	
 	<!-- 声明使用mybatis的SqlSeesionFactory -->

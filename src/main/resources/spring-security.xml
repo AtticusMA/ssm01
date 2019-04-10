@@ -24,7 +24,7 @@
 		<intercept-url pattern="/**" access="hasRole('ROLE_USER')"></intercept-url>
 		<!--将CSRF保护功能禁用,设置为true即为启用-->
 		<!-- 必须添加此段声明，禁用CSRF功能 -->
-		<!-- <csrf disabled="false"/>-->
+		 <!--<csrf disabled="true"/>-->
 
 		<!--<csrf request-matcher-ref="csrfSecurityRequestMatcher"></csrf>-->
 
@@ -34,7 +34,7 @@
               如果concurrency-control标签配置了error-if-maximum-exceeded="true"，max-sessions="1"，
               那么第二次登录时，是登录不了的。如果error-if-maximum-exceeded="false"，
               那么第二次是能够登录到系统的，但是第一个登录的账号再次发起请求时，会跳转到expired-url配置的url中-->
-        <csrf disabled="true"></csrf>
+        <!--<csrf disabled="true"></csrf>-->
 		<!--所有的页面都是直接到webapp路径下的 -->
 		<form-login login-page="/login.jsp" default-target-url="/index.jsp" always-use-default-target="false" authentication-failure-url="/login.jsp?error=true"></form-login>
 		<logout invalidate-session="true" logout-success-url="/login.jsp" logout-url="/j_spring_security_logout"></logout>

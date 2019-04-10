@@ -7,6 +7,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+    <%--<meta http-equiv="_csrf" content="_csrf.token"/>--%>
+    <%--<meta http-equiv="_csrf_header" content="_csrf_header"/>--%>
+    <%--<meta http-equiv="_csrf_parameter" content="_csrf" />--%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="${ctxStatic}/jquery/jquery-3.3.1.js"></script>
 <script src="${ctxStatic}/bootstrap/bootstrap.js" type="text/javascript"></script>
@@ -47,7 +50,7 @@
                 可以直接把这个参数设置为一个checkbox，无需设置value，Spring Security会自行判断它是否被选中，
                 这也是security内部提供的，只需要配置，不需要自己实现。
             --%>
-
+            <%--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
             <input type="checkbox" name="_spring_security_remember_me" />两周之内不必登陆<br />
             <input type="submit" value="登陆" />
             <input type="reset" value="重置" />
