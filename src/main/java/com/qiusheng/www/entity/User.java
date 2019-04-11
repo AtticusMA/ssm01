@@ -1,7 +1,6 @@
 package com.qiusheng.www.entity;
 
 
-import javax.persistence.Column;
 import javax.persistence.Table;
 
 /**
