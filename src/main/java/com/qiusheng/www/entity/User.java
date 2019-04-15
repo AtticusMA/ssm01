@@ -1,7 +1,11 @@
 package com.qiusheng.www.entity;
 
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.Table;
+import java.util.Collection;
 
 /**
 * @Description:    java类作用描述
@@ -22,7 +26,7 @@ public class User {
 
     private Long id;
 
-    private String userName;
+    private String username;
 
     private String password;
 
@@ -36,17 +40,23 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
-
     public String getPassword() {
         return password;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username){
+        this.username=username;
+    }
+
+
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
 
     public void setPassword(String password) {
         this.password = password == null ? null : password.trim();
@@ -63,12 +73,12 @@ public class User {
 
     public User(Long id,String userName){
         this.id=id;
-        this.userName = userName;
+        this.username = userName;
     }
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", password="
+		return "User [id=" + id + ", username=" + username + ", password="
 				+ password + ", age=" + age + "]";
 	}
 }

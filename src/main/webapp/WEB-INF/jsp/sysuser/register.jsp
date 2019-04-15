@@ -16,18 +16,18 @@
 <body>
 	<form action="${ctx}/user/register" modelAttribute="user" method="post" class="form-horizontal">
 	<div class="form-group">
-    <label for="userName">UserName</label>
-    <input type="username"  name="userName" path="userName" class="form-control"  id="username" aria-describedby="emailHelp" placeholder="Enter email">
+    <label for="username">UserName</label>
+    <input type="username"  name="username" path="username" class="form-control"  id="username" placeholder="用户名">
     <small id="emailH1" class="form-text text-muted">We'll never share your email with anyone else.</small>
   </div>
   <div class="form-group">
     <label for="InputEmail">Email address</label>
-    <input type="email" name="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+    <input type="email" name="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="邮箱">
     <small id="emailH2" class="form-text text-muted">We'll never share your email with anyone else.</small>
   </div>
   <div class="form-group">
     <label for="password">Password</label>
-    <input type="password" id="password"  class="form-control" id="exampleInputPassword1" placeholder="Password">
+    <input id="password" name="password" path="password"  class="form-control" id="exampleInputPassword1" placeholder="Password">
   </div>
   <div class="form-group form-check">
     <input type="checkbox" class="form-check-input" id="exampleCheck1">

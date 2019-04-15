@@ -25,7 +25,8 @@ debug:
         	<!-- %-20(%d{HH:mm:ss.SSS} [%thread]) %-5level %logger{80} - %msg%n -->
             <pattern>%-20(%d{HH:mm:ss.SSS} [%thread]) %-5level %logger{80} - %msg%n</pattern>
         </encoder>
-        <!--格式化输出：inherited
+        <!--格式化输出：
+
         %d表示日期，
         %thread表示线程名，
         %-5level：级别从左显示5个字符宽度

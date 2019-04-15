@@ -21,8 +21,8 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.qiusheng.www.entity.User" >
-    insert into sys_users (username, password)
-    values (#{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+    insert into sys_users (id,username, password)
+    values (#{id,jdbcType=BIGINT},#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.qiusheng.www.entity.User" >
     insert into sys_users
@@ -30,7 +30,7 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="userName != null" >
+      <if test="username != null" >
         user_name,
       </if>
       <if test="password != null" >
@@ -45,7 +45,7 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="userName != null" >
-        #{userName,jdbcType=VARCHAR},
+        #{username,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         #{password,jdbcType=VARCHAR},
@@ -59,7 +59,7 @@
     update sys_users
     <set >
       <if test="userName != null" >
-        user_name = #{userName,jdbcType=VARCHAR},
+        user_name = #{username,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
@@ -72,9 +72,15 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.qiusheng.www.entity.User" >
     update sys_users
-    set user_name = #{userName,jdbcType=VARCHAR},
+    set user_name = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getUserByName" parameterType="java.lang.String" resultType="com.qiusheng.www.entity.User">
+    SELECT *
+    from sys_users
+    WHERE username =#{username}
+  </select>
 </mapper>

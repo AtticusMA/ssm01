@@ -28,7 +28,7 @@
 
 	<!--实现视图展示当开始执行，没有映射到控制器使用视图 -->
 	<!--难道没有进入spring security 怎么登陆后来到这里了 -->
-	<mvc:view-controller path="/"  view-name="index"></mvc:view-controller>
+	<mvc:view-controller path="/"  view-name="login"></mvc:view-controller>
 
 	<!--注解驱动 -->
 	<mvc:annotation-driven>

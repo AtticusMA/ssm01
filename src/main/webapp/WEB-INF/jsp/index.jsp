@@ -4,10 +4,9 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <html>
 <body>
-<h2>Hello 222SSM</h2>
-<h3>${user.password}</h3>
+<h2>Hello,${user.username}</h2>
 <a href="${ctx}/user/getRegister" >注册</a>
-<a href="${ctx}/user/login" title="${ctx}/user/login">登陆情况</a>
 <a href="${ctx}/j_spring_security_logout">退出登陆</a>
+<a href="${ctx}/admin">管理员页面</a>
 </body>
 </html>

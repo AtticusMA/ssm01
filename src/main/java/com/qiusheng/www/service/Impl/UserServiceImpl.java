@@ -16,7 +16,10 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private  UserDao userDao;
-	public User getUserById(int userId) {
+
+
+	@Override
+	public User getUserById(Long userId) {
 		return this.userDao.selectByPrimaryKey(userId);
 	}
 
@@ -29,6 +32,11 @@ public class UserServiceImpl implements IUserService {
 			message="成功保存";
 		}
 		return new Result(code,message,user);
+	}
+
+	@Override
+	public User getUserByName(String username) {
+		return userDao.getUserByName(username);
 	}
 
 }

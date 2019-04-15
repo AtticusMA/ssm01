@@ -28,10 +28,6 @@
     <%--<input type="password" id="password"  class="form-control" id="exampleInputPassword1" placeholder="Password">--%>
   <%--</div>--%>
   <%--<button type="submit" class="btn btn-primary">Submit</button>--%>
-    <div class="error ${param.error == true ? '' : 'hide'}">
-        登陆失败<br>
-        ${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}
-    </div>
     <%--
         特别要注意的是form表单的action是提交登陆信息的地址，这是security内部定义好的，
         同时自定义form时，要把form的action设置为/j_spring_security_check。

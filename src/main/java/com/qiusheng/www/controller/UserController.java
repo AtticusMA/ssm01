@@ -35,7 +35,7 @@ public class UserController extends BaseController {
         	 user.setAge(11);
         	 user.setId(IdUtil.generateId());
         	 user.setPassword("123");
-        	 user.setUserName("javen");
+        	 user.setUsername("javen");
 		}
         model.addAttribute("user", user);  
         return "index";  
@@ -46,13 +46,32 @@ public class UserController extends BaseController {
     }
     
     
-    @RequestMapping(value="login")
-    public String login(User user){
-    	return "sysuser/login";
+    @RequestMapping(value="loginSuccess")
+    public String loginSuccess(User user,Model model){
+        user=getCurrentUser();
+        model.addAttribute("user",user);
+    	return "index";
     }
 
 
-    
+    @RequestMapping(value="loginOutSuccess")
+    public String loginOutSuccess(User user,Model model){
+        user=getCurrentUser();
+        model.addAttribute("user",user);
+        return "login";
+    }
+
+    @RequestMapping(value="/loginError")
+    public String loginError(User user){
+        return "loginerror";
+    }
+
+    @RequestMapping(value="/login")
+    public String login(User user){
+        return "login";
+    }
+
+    //这个是如何将user内容直接带入到下一个页面的呢
     @RequestMapping(value="/register",method=RequestMethod.POST)
     public String register(User user){
         user.setAge(1);
@@ -60,7 +79,6 @@ public class UserController extends BaseController {
     	userService.insertUser(user);
     	return "index";  
     }
-
 
     
 }   

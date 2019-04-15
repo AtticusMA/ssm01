@@ -14,14 +14,14 @@
     
     <!-- 定义过滤内容 -->
 	<http pattern="/static/**" security="none"></http>
-	<http pattern="/login.jsp" security="none"></http>
+	<http pattern="/login" security="none"></http>
 	<!-- 声明url对应角色 -->
 	<!--<http auto-config="true" use-expressions="true">-->
 	<http auto-config="false" use-expressions="true">
 		<!--<intercept-url pattern="/login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>-->
-		<intercept-url pattern="/login.jsp" access="permitAll" />
-		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"></intercept-url>
-		<intercept-url pattern="/**" access="hasRole('ROLE_USER')"></intercept-url>
+		<!--<intercept-url pattern="/login.jsp" access="permitAll" />-->
+		<!--<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"></intercept-url>-->
+		<!--<intercept-url pattern="/**" access="hasRole('ROLE_USER')"></intercept-url>-->
 		<!--将CSRF保护功能禁用,设置为true即为启用-->
 		<!-- 必须添加此段声明，禁用CSRF功能 -->
 		 <!--<csrf disabled="true"/>-->
@@ -36,10 +36,26 @@
               那么第二次是能够登录到系统的，但是第一个登录的账号再次发起请求时，会跳转到expired-url配置的url中-->
         <!--<csrf disabled="true"></csrf>-->
 		<!--所有的页面都是直接到webapp路径下的 -->
-		<form-login login-page="/login.jsp" default-target-url="/index.jsp" always-use-default-target="false" authentication-failure-url="/login.jsp?error=true"></form-login>
-		<logout invalidate-session="true" logout-success-url="/login.jsp" logout-url="/j_spring_security_logout"></logout>
-		<session-management session-authentication-error-url="/login.jsp">
-			<concurrency-control max-sessions="1" error-if-maximum-exceeded="false" expired-url="/login.jsp" session-registry-ref="sessionRegistry"/>
+		<form-login login-page="/WEB-INF/jsp/sysuser/login.jsp" default-target-url="/user/loginSuccess" always-use-default-target="false" authentication-failure-url="/user/loginError"></form-login>
+		<!--
+        logout这个标签用来配置退出或者注销，其中的属性invalidate-session，
+        配置否是要清除session，logout-success-url配置注销成功后的跳转页面，
+        logout-url提交退出或者注销的地址，因此我们在配置退出或者注销的时候，
+        只需要将url设置为/j_spring_security_logout即可，这个地址也是security内部实现了的。
+    -->
+		<logout invalidate-session="true" logout-success-url="/user/loginOutSuccess" logout-url="/j_spring_security_logout"></logout>
+		<!--
+          通过配置custom-filter来增加过滤器，
+          before="FILTER_SECURITY_INTERCEPTOR"表示在Springsecurity默认的过滤器之前执行
+      -->
+		<custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR"></custom-filter>
+		<!-- max-sessions只容许一个账号登录，error-if-maximum-exceeded 后面账号登录后踢出前一个账号，
+           expired-url session过期跳转界面
+           如果concurrency-control标签配置了error-if-maximum-exceeded="true"，max-sessions="1"，
+           那么第二次登录时，是登录不了的。如果error-if-maximum-exceeded="false"，
+           那么第二次是能够登录到系统的，但是第一个登录的账号再次发起请求时，会跳转到expired-url配置的url中-->
+		<session-management session-authentication-error-url="/user/login">
+			<concurrency-control max-sessions="1" error-if-maximum-exceeded="false" expired-url="/user/login" session-registry-ref="sessionRegistry"/>
 		</session-management>
 		<expression-handler ref="webexpressionHandler"></expression-handler>
 	</http>
@@ -56,13 +72,21 @@
             </beans:list>
         </beans:property>
     </beans:bean>-->
-
 	<beans:import resource="spring-context.xml"></beans:import>
 	<beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl"/>
-
 	<beans:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
+	<beans:bean id="filterSecurityInterceptor"
+				class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<!-- 用户拥有的权限 -->
+		<beans:property name="accessDecisionManager" ref="accessDecisionManager" />
+		<!-- 用户是否拥有所请求资源的权限 -->
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<!-- 资源与权限对应关系 -->
+		<beans:property name="securityMetadataSource" ref="securityMetadataSource" />
+	</beans:bean>
+	<beans:bean id="accessDecisionManager" class="com.qiusheng.www.security.CustomAccessDecisionManager"></beans:bean>
 	<!-- 登录管理 -->
-	<authentication-manager>
+	<authentication-manager alias="authenticationManager">
 		<authentication-provider>
 			<!--<user-service>-->
 				<!--<user name="adminer" password="adminer" authorities="ROLE_ADMIN,ROLE_USER"></user>-->
@@ -80,5 +104,14 @@
 							    WHERE username=?"></jdbc-user-service>
 		</authentication-provider>
 	</authentication-manager>
-
+	<beans:bean id="securityMetadataSource" class="com.qiusheng.www.security.CustomFilterInvocationSecurityMetadataSource">
+		<beans:property name="builder" ref="builder"></beans:property>
+	</beans:bean>
+	<beans:bean id="builder" class="com.qiusheng.www.security.JdbcRequestMapBuilder">
+		<beans:property name="dataSource" ref="dataSource"></beans:property>
+		<beans:property name="resourceQuery" value="select src.resc_string,sr.name
+		from sys_roles sr
+		left join sys_resc_role srr on srr.role_id = sr.id
+		left join sys_resc src on src.id = srr.resc_id"></beans:property>
+	</beans:bean>
 </beans:beans>
