@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.qiusheng.www.entity.User;
 import com.qiusheng.www.service.IUserService;
 
-import java.util.UUID;
 
 
 @Controller  
@@ -44,9 +43,15 @@ public class UserController extends BaseController {
     public String getRegister(){
     	return "sysuser/register";
     }
+
+
+    @RequestMapping(value="/getLogin",method=RequestMethod.GET)
+    public String getlogin(){
+        return "login";
+    }
+
     
-    
-    @RequestMapping(value="loginSuccess")
+    @RequestMapping(value="/login")
     public String loginSuccess(User user,Model model){
         user=getCurrentUser();
         model.addAttribute("user",user);
@@ -66,10 +71,6 @@ public class UserController extends BaseController {
         return "loginerror";
     }
 
-    @RequestMapping(value="/login")
-    public String login(User user){
-        return "login";
-    }
 
     //这个是如何将user内容直接带入到下一个页面的呢
     @RequestMapping(value="/register",method=RequestMethod.POST)

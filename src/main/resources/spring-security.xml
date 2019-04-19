@@ -17,7 +17,7 @@
 	<http pattern="/login" security="none"></http>
 	<!-- 声明url对应角色 -->
 	<!--<http auto-config="true" use-expressions="true">-->
-	<http auto-config="false" use-expressions="true">
+	<http auto-config="false" use-expressions="true" entry-point-ref="loginUrlAuthenticationEntryPoint">
 		<!--<intercept-url pattern="/login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>-->
 		<!--<intercept-url pattern="/login.jsp" access="permitAll" />-->
 		<!--<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"></intercept-url>-->
@@ -36,7 +36,7 @@
               那么第二次是能够登录到系统的，但是第一个登录的账号再次发起请求时，会跳转到expired-url配置的url中-->
         <!--<csrf disabled="true"></csrf>-->
 		<!--所有的页面都是直接到webapp路径下的 -->
-		<form-login login-page="/WEB-INF/jsp/sysuser/login.jsp" default-target-url="/user/loginSuccess" always-use-default-target="false" authentication-failure-url="/user/loginError"></form-login>
+		<!--<form-login login-page="/WEB-INF/jsp/sysuser/login.jsp" default-target-url="/user/loginSuccess" always-use-default-target="false" authentication-failure-url="/user/loginError"></form-login>-->
 		<!--
         logout这个标签用来配置退出或者注销，其中的属性invalidate-session，
         配置否是要清除session，logout-success-url配置注销成功后的跳转页面，
@@ -49,6 +49,9 @@
           before="FILTER_SECURITY_INTERCEPTOR"表示在Springsecurity默认的过滤器之前执行
       -->
 		<custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR"></custom-filter>
+
+
+		<custom-filter ref="CustomerUsernamePasswordAuthenticationFilter" position="FORM_LOGIN_FILTER"></custom-filter>
 		<!-- max-sessions只容许一个账号登录，error-if-maximum-exceeded 后面账号登录后踢出前一个账号，
            expired-url session过期跳转界面
            如果concurrency-control标签配置了error-if-maximum-exceeded="true"，max-sessions="1"，
@@ -59,7 +62,46 @@
 		</session-management>
 		<expression-handler ref="webexpressionHandler"></expression-handler>
 	</http>
-	<!--这里添加了一个属性execludeUrls，允许人为排除哪些url。
+
+	<!--是不是这个节点，没有被识别 ,而且这个节点是干啥用的。-->
+	<beans:bean id="loginUrlAuthenticationEntryPoint"
+				class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<beans:property name="loginFormUrl" value="/user/getlogin"></beans:property>
+	</beans:bean>
+
+
+	<!--配置自定义的过滤器：配置MyUsernamePasswordAuthenticationFilter并将其加入到FilterChain中去-->
+	<beans:bean id="CustomerUsernamePasswordAuthenticationFilter"
+				class="com.qiusheng.www.security.CustomUsernamePasswordAuthenticationFilter">
+		<!--filterProcessesUrl属性为登陆的过滤的地址-->
+		<beans:property name="filterProcessesUrl" value="/user/login" />
+		<!--authenticationManager为authentication-manager标签中配置的-->
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<!--authenticationSuccessHandler为验证成功后跳转的处理器，为什么不能跳转呢-->
+		<beans:property name="authenticationSuccessHandler" ref="loginLogAuthenticationSuccessHandler" />
+		<!--authenticationFailureHandler为验证失败的处理器-->
+		<beans:property name="authenticationFailureHandler" ref="simpleUrlAuthenticationFailureHandler" />
+
+		<beans:property name="sessionAuthenticationStrategy" ref="sessionAuthenticationStrategier"></beans:property>
+	</beans:bean>
+
+	<beans:bean id="loginLogAuthenticationSuccessHandler"
+				class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<beans:property name="targetUrlParameter" value="/user/loginSuccess"></beans:property>
+	</beans:bean>
+
+	<beans:bean id="simpleUrlAuthenticationFailureHandler"
+				class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+		<beans:property name="defaultFailureUrl" value="/user/loginError"></beans:property>
+	</beans:bean>
+
+	<beans:bean id="sessionAuthenticationStrategier" class="org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy">
+		<beans:constructor-arg ref="sessionRegistry" />
+	</beans:bean>
+
+
+
+    <!--这里添加了一个属性execludeUrls，允许人为排除哪些url。
    这里约定所有/rest/开头的都是Rest服务地址，上面的配置就把/rest/排除在csrf验证的范围之外了.
    源码可以发现，POST方法被排除在外了，也就是说只有GET|HEAD|TRACE|OPTIONS这4类方法会被放行，
    其它Method的http请求，都要验证_csrf的token是否正确，

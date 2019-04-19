@@ -33,7 +33,7 @@
         同时自定义form时，要把form的action设置为/j_spring_security_check。
         注意这里要使用绝对路径，避免登陆页面存放的页面可能带来的问题。
     --%>
-    <form method="post" action="${pageContext.request.contextPath}/j_spring_security_check"
+    <form method="post" action="${pageContext.request.contextPath}/user/login"
           style="width:260px; text-align: center">
         <fieldset>
             <legend>新页面-登陆</legend>
